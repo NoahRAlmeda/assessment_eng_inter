@@ -49,15 +49,40 @@ To run the application use:
 
 > **NOTE:** The database need to be create and needs to be populated with data. 
 
-To create the database you will need to run:
+To create the database you will need to open the MySQL server or the package server you installed (WAMP, LAMP, MAMP). When the server is up and running, you'll need to open phpMyAdmin or you can use MySQL Workbench. Use your credentials to login, then you can import the database using the ABET_ASSESSMENT_SCHEMA_DB.sql file, or you can copy-paste the information of the file and paste it in the query box. Once you finish creating the database, it is time to add your profile, so the application let you login successfully. 
 
-``` 
-mysql -u username -p < ABET_assessment.sql
+In the query box: 
+
+To create your Profile: 
+```
+    INSERT INTO ABET.USER (inter_ID, first_name, last_name, email, phone_number) 
+        values( 'G00000000', 'YourName', 'YourLastName', 'UniversityEmail', '7877878787');
 ```
 
+Next you'll need to find your user_ID, run the next query and copy your user_ID: 
+
 ```
-{ Here goes other commands the are gonna be put later }
+    SELECT user_ID FROM ABET.USER WHERE email = 'yourEmail';
 ```
+
+Give some privileges to your profile: (1= admin) - (2= professor)
+```
+    INSERT INTO ABET.USER_PROFILES (user_ID, profile_ID) values(YourID, 1);
+```
+
+last, you'll need the last privilege, the coordinator privilege. First you need to find the ID of one study program. You have to copy one ID. to find Ids: 
+
+```
+    SELECT prog_ID FROM ABET.STUDY_PROGRAM
+```
+
+Then, with the ID of the study program copied, you need to run the last query to finish the setup:
+
+```
+    INSERT INTO USER_STUDY_PROGRAM (user_ID, prog_ID, is_coordinator) values (yourID, ProgramID, 1);
+```
+
+Now you can loggin into the application and give to other users privilege using the web page. 
 
 ---
 
